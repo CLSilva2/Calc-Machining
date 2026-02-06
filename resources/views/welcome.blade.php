@@ -6,20 +6,28 @@
     <title>Cálculos para Usinagem</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class="bg-black text-white min-h-screen">
+<body class="bg-black text-white min-h-screen" id="main-body">
     <!-- Mobile Menu Toggle (Hidden) -->
     <input type="checkbox" id="menu-toggle" class="hidden peer">
 
     <!-- Header -->
-    <header class="bg-black shadow-sm sticky top-0 z-40 border-b border-gray-800">
-        <!-- White Banner with Logo -->
-        <div class="w-full bg-white flex items-center justify-center" style="height: 180px;">
+    <header class="bg-black shadow-sm z-40">
+        <!-- White Banner with Logo (roda junto com a página) -->
+        <div class="w-full bg-white flex items-center justify-center relative" style="height: 180px;">
+            <span class="text-black font-bold text-xl absolute left-8">Calcmachining.com</span>
             <img src="/logo.png" alt="Logo" class="object-contain" style="height: 160px;">
-        </div>
-
-        <!-- USINAGEM Text -->
-        <div class="w-full bg-black py-4 text-center">
-            <h2 class="text-white font-bold text-2xl">USINAGEM</h2>
+            <div class="absolute right-8 flex gap-4 items-center">
+                <button class="bg-black text-white px-6 py-2 rounded font-semibold hover:bg-gray-800 transition">LOGIN</button>
+                <button class="bg-black text-white px-6 py-2 rounded font-semibold hover:bg-gray-800 transition">CADASTRE-SE</button>
+                <button id="theme-toggle" class="ml-2 p-2 hover:bg-gray-200 rounded transition" title="Toggle tema">
+                    <svg id="sun-icon" class="w-6 h-6 text-black" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v2a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l-2.12-2.12a1 1 0 00-1.414 0l-2.12 2.12a1 1 0 101.414 1.414L9 11.414l1.464 1.465a1 1 0 001.414-1.414zM15 5a1 1 0 100-2 1 1 0 000 2zM3 5a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd" />
+                    </svg>
+                    <svg id="moon-icon" class="w-6 h-6 text-black hidden" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+                    </svg>
+                </button>
+            </div>
         </div>
 
         <nav class="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
@@ -29,12 +37,6 @@
 
             <!-- Desktop Menu -->
             <div class="hidden md:flex items-center gap-6">
-                <a href="#" class="text-white hover:text-green-400 transition font-medium">
-                    Login
-                </a>
-                <a href="#" class="text-white hover:text-green-400 transition font-medium">
-                    Registrar
-                </a>
             </div>
 
             <!-- Mobile Menu Button -->
@@ -47,13 +49,7 @@
 
         <!-- Mobile Menu -->
         <div class="md:hidden max-h-0 peer-checked:max-h-64 overflow-hidden transition-all duration-300">
-            <div class="px-4 py-4 border-t border-gray-800 space-y-3 bg-gray-900">
-                <a href="#" class="block text-white hover:text-green-400 transition font-medium py-2">
-                    Login
-                </a>
-                <a href="#" class="block text-white hover:text-green-400 transition font-medium py-2">
-                    Registrar
-                </a>
+            <div class="px-4 py-4 space-y-3 bg-gray-900">
             </div>
         </div>
     </header>
@@ -62,80 +58,59 @@
     <main class="max-w-7xl mx-auto px-4 py-12">
         <!-- Title Section -->
         <div class="text-center mb-12">
-            <h1 class="text-4xl md:text-5xl font-bold text-white mb-4">
+            <h1 class="text-4xl md:text-5xl font-bold text-white mb-4" style="font-family: 'Roboto', sans-serif;">
                 CÁLCULOS PARA USINAGEM
             </h1>
-            <p class="text-lg text-gray-300">
-                Ferramentas essenciais para otimizar seus projetos de usinagem
+            <p class="text-lg text-gray-300" style="font-family: 'Roboto', sans-serif;">
+                FERRAMENTA PARA OTMIZAÇÃO DE PROCESSOS DE USINAGEM
             </p>
         </div>
 
-        <!-- Buttons Grid -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-            <!-- Button 1 -->
-            <a href="#" class="group">
-                <button class="w-full h-24 md:h-28 bg-green-500 hover:bg-green-600 transition-all transform hover:scale-105 rounded-lg shadow-lg hover:shadow-xl flex items-center justify-center">
-                    <span class="text-white font-bold text-center text-sm md:text-base px-4">
-                        Medida W Reto
-                    </span>
-                </button>
-            </a>
+    <div class="d-grid gap-2">
+  <button class="btn-custom" type="button">MEDIDA W RETO</button>
+  <button class="btn-custom" type="button">MEDIDA W HELICOIDAL</button>
+  <button class="btn-custom" type="button">HELICOIDAL</button>
+  <button class="btn-custom" type="button">KIT ENGRENAGEM COM PASSO</button>
+  <button class="btn-custom" type="button">EM PROGRESSO</button>
+  <button class="btn-custom" type="button">EM PROGRESSO</button>
+</div>
 
-            <!-- Button 2 -->
-            <a href="#" class="group">
-                <button class="w-full h-24 md:h-28 bg-green-500 hover:bg-green-600 transition-all transform hover:scale-105 rounded-lg shadow-lg hover:shadow-xl flex items-center justify-center">
-                    <span class="text-white font-bold text-center text-sm md:text-base px-4">
-                        Medida W Helicoidal
-                    </span>
-                </button>
-            </a>
-
-            <!-- Button 3 -->
-            <a href="#" class="group">
-                <button class="w-full h-24 md:h-28 bg-green-500 hover:bg-green-600 transition-all transform hover:scale-105 rounded-lg shadow-lg hover:shadow-xl flex items-center justify-center">
-                    <span class="text-white font-bold text-center text-sm md:text-base px-4">
-                        Helicoidal
-                    </span>
-                </button>
-            </a>
-
-            <!-- Button 4 -->
-            <a href="#" class="group">
-                <button class="w-full h-24 md:h-28 bg-green-500 hover:bg-green-600 transition-all transform hover:scale-105 rounded-lg shadow-lg hover:shadow-xl flex items-center justify-center">
-                    <span class="text-white font-bold text-center text-sm md:text-base px-4">
-                        Kit com Passo
-                    </span>
-                </button>
-            </a>
-
-            <!-- Button 5 -->
-            <a href="#" class="group">
-                <button class="w-full h-24 md:h-28 bg-green-500 hover:bg-green-600 transition-all transform hover:scale-105 rounded-lg shadow-lg hover:shadow-xl flex items-center justify-center">
-                    <span class="text-white font-bold text-center text-sm md:text-base px-4">
-                        Manutenção
-                    </span>
-                </button>
-            </a>
-
-            <!-- Button 6 -->
-            <a href="#" class="group">
-                <button class="w-full h-24 md:h-28 bg-green-500 hover:bg-green-600 transition-all transform hover:scale-105 rounded-lg shadow-lg hover:shadow-xl flex items-center justify-center">
-                    <span class="text-white font-bold text-center text-sm md:text-base px-4">
-                        SOBRE
-                    </span>
-                </button>
-            </a>
-        </div>
     </main>
 
     <!-- Footer -->
-    <footer class="bg-gray-900 text-white mt-20 py-12 border-t border-gray-800">
+    <footer class="bg-black-900 text-white mt-20 py-12">
         <div class="max-w-7xl mx-auto px-4 text-center">
             <p class="text-sm">
-                &copy; {{ date('Y') }} Cálculos para Usinagem. Todos os direitos reservados.
+                &copy; {{ date('Y') }} Calc Machining. Todos os direitos reservados.
             </p>
         </div>
     </footer>
+
+    <script>
+        (function() {
+            const themeToggle = document.getElementById('theme-toggle');
+            const sunIcon = document.getElementById('sun-icon');
+            const moonIcon = document.getElementById('moon-icon');
+            const html = document.documentElement;
+            
+            // Verificar tema salvo no localStorage
+            const savedTheme = localStorage.getItem('theme') || 'dark';
+            if (savedTheme === 'light') {
+                html.classList.add('light-mode');
+                sunIcon.classList.add('hidden');
+                moonIcon.classList.remove('hidden');
+            }
+            
+            themeToggle.addEventListener('click', function() {
+                html.classList.toggle('light-mode');
+                sunIcon.classList.toggle('hidden');
+                moonIcon.classList.toggle('hidden');
+                
+                const isLightMode = html.classList.contains('light-mode');
+                localStorage.setItem('theme', isLightMode ? 'light' : 'dark');
+            });
+        })();
+    </script>
 </body>
 </html>
                             <path d="M188.467 355.363L188.798 355.363C195.644 348.478 205.969 339.393 219.772 328.11C233.133 316.826 243.181 307.837 249.917 301.144C253.696 297.217 256.792 293.166 259.205 288.991C261.024 285.845 262.455 282.628 263.499 279.341C265.928 271.691 264.768 263.753 260.02 255.529C254.719 246.349 247.265 238.985 237.657 233.438C228.16 227.7 218.111 224.831 207.51 224.83C197.13 224.83 190.339 227.603 187.137 233.149C183.824 238.504 184.929 245.963 190.45 255.527L125.851 255.524C116.574 239.458 112.598 225.114 113.923 212.491C114.615 206.836 116.261 201.756 118.859 197.253C122.061 191.704 126.709 187.03 132.805 183.229C143.958 176.153 158.81 172.615 177.362 172.616C196.797 172.617 216.067 176.156 235.171 183.233C254.164 190.119 271.502 199.874 287.183 212.497C302.864 225.121 315.343 239.466 324.62 255.532C333.233 270.45 337.044 283.551 336.05 294.835C335.46 303.459 333.16 311.245 329.151 318.194C327.915 320.337 326.515 322.4 324.953 324.384C318.549 332.799 308.611 343.127 295.139 355.367L377.297 355.37L406.121 405.289L217.29 405.282L188.467 355.363Z" stroke="#1B1B18" stroke-width="1" stroke-linejoin="bevel" />
@@ -245,7 +220,7 @@
                             <path d="M67.41 125.402L44.5515 125.401L15.5625 75.1953L101.364 75.1985L233.886 304.712L170.942 304.71L67.41 125.402Z" stroke="#FF750F" stroke-width="1"/>
                         </g>
                     </svg>
-                    <div class="absolute inset-0 rounded-t-lg lg:rounded-t-none lg:rounded-r-lg shadow-[inset_0px_0px_0px_1px_rgba(26,26,0,0.16)] dark:shadow-[inset_0px_0px_0px_1px_#fffaed2d]"></div>
+                    <div class="absolute inset-0 rounded-t-lg lg:rounded-t-none lg:rounded-r-lg"></div>
                 </div>
             </main>
         </div>
@@ -255,5 +230,31 @@
         @if (Route::has('login'))
             <div class="h-14.5 hidden lg:block"></div>
         @endif
+
+    <script>
+        (function() {
+            const themeToggle = document.getElementById('theme-toggle');
+            const sunIcon = document.getElementById('sun-icon');
+            const moonIcon = document.getElementById('moon-icon');
+            const html = document.documentElement;
+            
+            // Verificar tema salvo no localStorage
+            const savedTheme = localStorage.getItem('theme') || 'dark';
+            if (savedTheme === 'light') {
+                html.classList.add('light-mode');
+                sunIcon.classList.add('hidden');
+                moonIcon.classList.remove('hidden');
+            }
+            
+            themeToggle.addEventListener('click', function() {
+                html.classList.toggle('light-mode');
+                sunIcon.classList.toggle('hidden');
+                moonIcon.classList.toggle('hidden');
+                
+                const isLightMode = html.classList.contains('light-mode');
+                localStorage.setItem('theme', isLightMode ? 'light' : 'dark');
+            });
+        })();
+    </script>
     </body>
 </html>

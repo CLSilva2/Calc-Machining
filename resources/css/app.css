@@ -1,11 +1,62 @@
+/* 1️⃣ Tailwind e Bootstrap primeiro */
 @import 'tailwindcss';
+@import "bootstrap/dist/css/bootstrap.min.css";
 
-@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
-@source '../../storage/framework/views/*.php';
-@source '../**/*.blade.php';
-@source '../**/*.js';
-
-@theme {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-        'Segoe UI Symbol', 'Noto Color Emoji';
+/* 2️⃣ Seu CSS customizado por último */
+.btn-custom {
+    background-color: #00025A; /* cor de fundo */
+    color: rgb(255, 255, 255); /* cor do texto */
+    font-weight: bold;
+    padding: 12px 30px; /* tamanho do botão */
+    border-radius: 12px; /* cantos arredondados */
+    border: none;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.2); /* sombra */
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    cursor: pointer;
 }
+
+.btn-custom:hover {
+    background-color: #0406a0; /* cor no hover */
+    transform: scale(1.05); /* leve efeito de zoom */
+}
+
+
+/* Registrar fonte local */
+@font-face {
+    font-family: 'Roboto';
+    src: url('../fonts/metal.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+}
+
+/* Tema claro (modo noturno) */
+html.light-mode {
+    --bg-color: #f5f5f5;
+    --text-color: #000000;
+    --inverse-bg: #ffffff;
+}
+
+html.light-mode body {
+    background-color: #f5f5f5;
+    color: #000000;
+    transition: background-color 300ms ease, color 300ms ease;
+}
+
+html.light-mode .bg-black {
+    background-color: #ffffff;
+    color: #000000;
+}
+
+html.light-mode .text-white {
+    color: #000000;
+}
+
+html.light-mode .text-black {
+    color: #000000;
+}
+
+html.light-mode .bg-white {
+    background-color: #000000;
+}
+
+
