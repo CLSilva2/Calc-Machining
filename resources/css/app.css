@@ -13,11 +13,36 @@
     box-shadow: 0 4px 6px rgba(0,0,0,0.2); /* sombra */
     transition: background-color 0.3s ease, transform 0.2s ease;
     cursor: pointer;
+    text-decoration: none; /* remove underline em links */
+}
+
+.btn-custom:link,
+.btn-custom:visited,
+.btn-custom:hover,
+.btn-custom:active,
+.btn-custom:focus {
+    text-decoration: none;
 }
 
 .btn-custom:hover {
     background-color: #0406a0; /* cor no hover */
     transform: scale(1.05); /* leve efeito de zoom */
+}
+
+/* Garantir remoção de sublinhado mesmo com estilos externos */
+a.btn-custom,
+a.btn-custom:link,
+a.btn-custom:visited,
+a.btn-custom:hover,
+a.btn-custom:active,
+a.btn-custom:focus {
+    text-decoration: none !important;
+    border-bottom: none !important;
+}
+
+/* remover sublinhado em elementos filhos (caso existam) */
+.btn-custom * {
+    text-decoration: none !important;
 }
 
 
