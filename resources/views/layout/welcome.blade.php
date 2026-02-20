@@ -36,6 +36,12 @@
         }
         html.light-mode header {
             background-color: #ffffff !important;
+            box-shadow: none !important;
+            border: none !important;
+        }
+        html.light-mode header > div {
+            box-shadow: none !important;
+            border: none !important;
         }
     </style>
 </head>
@@ -46,15 +52,24 @@
     <!-- Header -->
     <header class="bg-black shadow-sm z-40">
         <!-- White Banner with Logo (roda junto com a página) -->
-        <div class="w-full bg-white flex items-center justify-center relative" style="height: 180px;">
+        <div class="w-full bg-white flex flex-col items-center justify-center relative" style="height: 180px;">
             <span class="text-black font-bold text-xl absolute left-8 top-4">Calcmachining.com</span>
-            <a href="{{ url('/') }}">
-                <img src="/logo.png" alt="Logo" class="object-contain" style="height: 160px;">
+            
+            <!-- Logo centralizada -->
+            <a href="{{ url('/') }}" class="flex items-center justify-center">
+                <img src="/logo.png" alt="Logo" class="object-contain" style="height: 120px;">
             </a>
+            
+            <!-- Menu abaixo da logo centralizado -->
+            <div class="flex gap-12 mt-3 items-center justify-center">
+                <a href="{{ url('/pagamentos') }}" class="text-black font-bold text-lg hover:text-gray-600 transition" style="text-decoration: none;">PAGAMENTO</a>
+                <a href="{{ url('/sobre') }}" class="text-black font-bold text-lg hover:text-gray-600 transition" style="text-decoration: none;">SOBRE</a>
+            </div>
+            
             <div class="absolute right-8 flex gap-4 items-center top-4">
                 <button class="bg-black text-white px-6 py-2 rounded font-semibold hover:bg-gray-800 transition">LOGIN</button>
                 <button class="bg-black text-white px-6 py-2 rounded font-semibold hover:bg-gray-800 transition">CADASTRE-SE</button>
-                <button id="theme-toggle" class="ml-2 p-2 hover:bg-gray-200 rounded transition" title="Toggle tema">
+                <button id="theme-toggle" class="ml-2 p-2 hover:bg-gray-200 rounded transition" title="Alterar Tema">
                     <svg id="sun-icon" class="w-6 h-6 text-black" fill="currentColor" viewBox="0 0 20 20">
                         <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v2a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l-2.12-2.12a1 1 0 00-1.414 0l-2.12 2.12a1 1 0 101.414 1.414L9 11.414l1.464 1.465a1 1 0 001.414-1.414zM15 5a1 1 0 100-2 1 1 0 000 2zM3 5a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd" />
                     </svg>
@@ -102,9 +117,9 @@
         </div>
 
         <div class="d-grid gap-2">
-    <a href="{{ route('medidaw.reto') }}" class="btn-custom inline-block text-center">MEDIDA W RETO</a>
-    <a href="{{ route('medidaw.helicoidal') }}" class="btn-custom inline-block text-center">MEDIDA W HELICOIDAL</a>
-    <a href="{{ route('helicoidal') }}" class="btn-custom inline-block text-center">HELICOIDAL</a>
+    <a href="{{ route('medidaw.reto') }}" class="btn-custom inline-block text-center">MEDIDA W(K) RETO</a>
+    <a href="{{ route('medidaw.helicoidal') }}" class="btn-custom inline-block text-center">MEDIDA W(K) HELICOIDAL</a>
+    <a href="{{ route('helicoidal') }}" class="btn-custom inline-block text-center">ENGRENAGEM HELICOIDAL</a>
     <a href="{{ route('kit.com-passo') }}" class="btn-custom inline-block text-center">KIT ENGRENAGEM COM PASSO</a>
     <a href="#" class="btn-custom inline-block text-center">EM PROGRESSO</a>
     <a href="#" class="btn-custom inline-block text-center">EM PROGRESSO</a>
