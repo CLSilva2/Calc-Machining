@@ -79,6 +79,20 @@
 		html.light-mode .bg-white\/10 {
 			background-color: #dbdddf !important;
 		}
+
+				header .flex.gap-12.mt-3 a,
+				header .flex.gap-6.mt-3 a {
+					border: 1px solid #2563eb !important;
+					border-radius: 9999px;
+					padding: 0.25rem 0.75rem;
+					transition: background-color 0.2s ease, color 0.2s ease;
+				}
+
+				header .flex.gap-12.mt-3 a:hover,
+				header .flex.gap-6.mt-3 a:hover {
+					background-color: #93c5fd !important;
+					color: #1f2937 !important;
+				}
 	</style>
 </head>
 <body class="bg-black text-white min-h-screen">
@@ -94,10 +108,12 @@
 			
 			<!-- Menu abaixo da logo centralizado -->
 			<div class="flex gap-6 mt-3 items-center justify-center flex-wrap">
+				<a href="{{ url('/') }}" class="text-black font-bold text-sm hover:text-gray-600 transition" style="text-decoration: none;">INCIO</a>
 				<a href="{{ route('medidaw.helicoidal') }}" class="text-black font-bold text-sm hover:text-gray-600 transition" style="text-decoration: none;">MEDIDA W HELICOIDAL</a>
 				<a href="{{ route('helicoidal') }}" class="text-black font-bold text-sm hover:text-gray-600 transition" style="text-decoration: none;">ENGRENAGEM HELICOIDAL</a>
 				<a href="{{ route('kit.com-passo') }}" class="text-black font-bold text-sm hover:text-gray-600 transition" style="text-decoration: none;">KIT ENGRENAGEM COM PASSO</a>
-				<a href="{{ route('medida.cordal') }}" class="text-black font-bold text-sm hover:text-gray-600 transition" style="text-decoration: none;">MEDIDA CORDAL</a>
+				<a href="{{ route('medida.cordal') }}" class="text-black font-bold text-sm hover:text-gray-600 transition" style="text-decoration: none;">EM PROGRESSO</a>
+				<a href="{{ route('em-progresso-2') }}" class="text-black font-bold text-sm hover:text-gray-600 transition" style="text-decoration: none;">EM PROGRESSO</a>
 				<a href="{{ route('sobre') }}" class="text-black font-bold text-sm hover:text-gray-600 transition" style="text-decoration: none;">SOBRE</a>
 			</div>
 			

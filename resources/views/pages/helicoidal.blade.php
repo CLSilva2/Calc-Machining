@@ -83,6 +83,20 @@
 		html.light-mode .bg-white\/10 {
 			background-color: #dbdddf !important;
 		}
+
+				header .flex.gap-12.mt-3 a,
+				header .flex.gap-6.mt-3 a {
+					border: 1px solid #2563eb !important;
+					border-radius: 9999px;
+					padding: 0.25rem 0.75rem;
+					transition: background-color 0.2s ease, color 0.2s ease;
+				}
+
+				header .flex.gap-12.mt-3 a:hover,
+				header .flex.gap-6.mt-3 a:hover {
+					background-color: #93c5fd !important;
+					color: #1f2937 !important;
+				}
 	</style>
 </head>
 <body class="bg-black text-white min-h-screen">
@@ -98,10 +112,12 @@
 			
 			<!-- Menu abaixo da logo centralizado -->
 			<div class="flex gap-6 mt-3 items-center justify-center flex-wrap">
+				<a href="{{ url('/') }}" class="text-black font-bold text-sm hover:text-gray-600 transition" style="text-decoration: none;">INCIO</a>
 				<a href="{{ route('medidaw.reto') }}" class="text-black font-bold text-sm hover:text-gray-600 transition" style="text-decoration: none;">MEDIDA W RETO</a>
 				<a href="{{ route('medidaw.helicoidal') }}" class="text-black font-bold text-sm hover:text-gray-600 transition" style="text-decoration: none;">MEDIDA W HELICOIDAL</a>
 				<a href="{{ route('kit.com-passo') }}" class="text-black font-bold text-sm hover:text-gray-600 transition" style="text-decoration: none;">KIT ENGRENAGEM COM PASSO</a>
-				<a href="{{ route('medida.cordal') }}" class="text-black font-bold text-sm hover:text-gray-600 transition" style="text-decoration: none;">MEDIDA CORDAL</a>
+				<a href="{{ route('medida.cordal') }}" class="text-black font-bold text-sm hover:text-gray-600 transition" style="text-decoration: none;">EM PROGRESSO</a>
+				<a href="{{ route('em-progresso-2') }}" class="text-black font-bold text-sm hover:text-gray-600 transition" style="text-decoration: none;">EM PROGRESSO</a>
 				<a href="{{ route('sobre') }}" class="text-black font-bold text-sm hover:text-gray-600 transition" style="text-decoration: none;">SOBRE</a>
 			</div>
 			
@@ -138,13 +154,8 @@
 				</div>
 
 				<div>
-					<label for="angulo_pressao" class="block text-sm font-medium text-gray-200">Ângulo de pressão</label>
-					<input id="angulo_pressao" name="angulo_pressao" type="text" inputmode="decimal" data-angle="true" required class="mt-1 block w-full px-3 py-2 bg-white/10 border border-gray-700 rounded text-white focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="20, 20° ou 20°23&quot;" value="{{ request()->input('angulo_pressao') }}">
-				</div>
-
-				<div>
-					<label for="angulo_helice" class="block text-sm font-medium text-gray-200">Ângulo de Hélice</label>
-					<input id="angulo_helice" name="angulo_helice" type="text" inputmode="decimal" data-angle="true" required class="mt-1 block w-full px-3 py-2 bg-white/10 border border-gray-700 rounded text-white focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="20, 20° ou 20°23&quot;" value="{{ request()->input('angulo_helice') }}">
+					<label for="angulo" class="block text-sm font-medium text-gray-200">Ângulo</label>
+					<input id="angulo" name="angulo" type="number" step="any" min="0" required class="mt-1 block w-full px-3 py-2 bg-white/10 border border-gray-700 rounded text-white focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Ex: 20" value="{{ request()->input('angulo') }}">
 				</div>
 
 				<div>
@@ -164,135 +175,95 @@
 		</div>
 
 		
-		@if(request()->hasAny(['modulo', 'numero_dentes', 'angulo_pressao', 'angulo_helice', 'divisor', 'fuso']))
+		@if(request()->hasAny(['modulo', 'numero_dentes', 'angulo', 'divisor', 'fuso']))
 			@php
-				$parseAngle = function ($value) {
-					if ($value === null) {
-						return null;
-					}
-					$raw = trim((string) $value);
-					if ($raw === '') {
-						return null;
-					}
-					$normalized = str_replace(',', '.', $raw);
-					if (strpos($normalized, '°') === false) {
-						return is_numeric($normalized) ? floatval($normalized) : null;
-					}
-					$pattern = '/^\s*([0-9]+(?:\.[0-9]+)?)\s*°\s*([0-9]+(?:\.[0-9]+)?)?\s*(?:"|”)?\s*$/';
-					if (!preg_match($pattern, $normalized, $matches)) {
-						return null;
-					}
-					$degrees = floatval($matches[1]);
-					$seconds = isset($matches[2]) && $matches[2] !== '' ? floatval($matches[2]) : 0.0;
-					return $degrees + ($seconds / 3600.0);
-				};
+				$engrenagens = [24, 26, 27, 28, 29, 30, 31, 32, 33, 34, 36, 40, 44, 48, 52, 56, 60, 64, 72, 80, 88, 100, 127];
+				$pi = round(pi(), 4);
 
 				$modulo = request()->input('modulo');
-				$numero_dentes = request()->input('numero_dentes');
-				$angulo_pressao = $parseAngle(request()->input('angulo_pressao'));
-				$angulo_helice = $parseAngle(request()->input('angulo_helice'));
+				$angulo_graus = request()->input('angulo');
+				$dentes = request()->input('numero_dentes');
 				$divisor = request()->input('divisor');
 				$fuso = request()->input('fuso');
+
 				$calcs = [];
+				$melhores = [];
 
+				if (is_numeric($modulo) && is_numeric($angulo_graus) && is_numeric($dentes) && is_numeric($divisor) && is_numeric($fuso)
+					&& floatval($divisor) > 0 && floatval($fuso) > 0) {
+					$angulo_radianos = floatval($angulo_graus) * pi() / 180;
+					$cosseno = round(cos($angulo_radianos), 5);
+					$tangente = round(tan($angulo_radianos), 5);
 
+					if ($cosseno != 0.0 && $tangente != 0.0) {
+						$quant_avanco = floatval($divisor) * floatval($fuso);
+						$calculo_um = floatval($modulo) / $cosseno;
+						$calculo_dois = $calculo_um * floatval($dentes);
+						$calculo_tres = $calculo_dois * $pi / $tangente;
+						$passo = $calculo_tres / $quant_avanco;
 
+						$targetRatio = $passo;
+						$tolerance = 0.001;
+						$validCombinations = [];
 
-			// Lista de engrenagens disponíveis
-			$engrenagens = [
-				24, 26, 27, 28, 29, 30, 31, 32, 33, 34,
-				36, 40, 44, 48, 52, 56, 60, 64, 72, 80,
-				88, 100, 127
-			];
+						foreach ($engrenagens as $A) {
+							foreach ($engrenagens as $B) {
+								foreach ($engrenagens as $C) {
+									foreach ($engrenagens as $D) {
+										$ratio = ($A * $C) / ($B * $D);
+										$error = abs($ratio - $targetRatio);
 
-
-
-
-
-
-
-			//FORMULA
-
-
-			// Calculo quant_avanco
-			$quant_avanco = floatval($divisor) * floatval($fuso);
-			$calcs['quant_avanco'] = $quant_avanco;
-
-
-			// Calculo angulox
-			$angulox = floatval($angulo_pressao);
-			$calcs['angulo_pressao'] = $angulox;
-			$calcs['angulo_helice'] = floatval($angulo_helice);
-
-			// Calculo para angulos radianos
-			$angulo_radianos = $angulox * pi() / 180;
-			$calcs['angulo_radianos'] = $angulo_radianos;
-			$calcs['cosseno'] = cos($angulo_radianos);
-			$calcs['tangente'] = tan($angulo_radianos);
-
-			
-			// Calculo Primitivo
-			$parte1 = floatval($modulo) / $calcs['cosseno'];
-			$parte2 = $parte1 * floatval($numero_dentes);
-			$parte3 = $parte2 * pi() / $calcs['tangente'];
-			$passo = $parte3 / $quant_avanco;
-			$calcs['parte1'] = $parte1;
-			$calcs['parte2'] = $parte2;
-			$calcs['parte3'] = $parte3;
-
-			// Buscar combinações válidas de engrenagens
-			$targetRatio = $passo;
-			$tolerance = 0.001;
-			$validCombinations = [];
-
-			foreach ($engrenagens as $A) {
-				foreach ($engrenagens as $B) {
-					foreach ($engrenagens as $C) {
-						foreach ($engrenagens as $D) {
-							$ratio = ($A * $C) / ($B * $D);
-							
-							if (abs($ratio - $targetRatio) <= $tolerance) {
-								$error = abs($ratio - $targetRatio);
-								$validCombinations[] = [
-									'A' => $A,
-									'B' => $B,
-									'C' => $C,
-									'D' => $D,
-									'error' => $error,
-									'ratio' => $ratio
-								];
+										if ($error <= $tolerance) {
+											$validCombinations[] = [
+												'A' => $A,
+												'B' => $B,
+												'C' => $C,
+												'D' => $D,
+												'Error' => $error,
+											];
+										}
+									}
+								}
 							}
 						}
+
+						usort($validCombinations, function ($a, $b) {
+							return $a['Error'] <=> $b['Error'];
+						});
+
+						$melhores = array_slice($validCombinations, 0, 10);
+
+						$calcs['pi'] = $pi;
+						$calcs['angulo_graus'] = floatval($angulo_graus);
+						$calcs['angulo_radianos'] = $angulo_radianos;
+						$calcs['cosseno'] = $cosseno;
+						$calcs['tangente'] = $tangente;
+						$calcs['quant_avanco'] = $quant_avanco;
+						$calcs['calculo_um'] = $calculo_um;
+						$calcs['calculo_dois'] = $calculo_dois;
+						$calcs['calculo_tres'] = $calculo_tres;
+						$calcs['passo'] = $passo;
+						$calcs['melhores'] = $melhores;
 					}
 				}
-			}
-
-			// Ordenar por erro (menor primeiro)
-			usort($validCombinations, function($x, $y) {
-				return $x['error'] <=> $y['error'];
-			});
-
-			$calcs['passo'] = $passo;
-			$calcs['validCombinations'] = $validCombinations;
-			$calcs['targetRatio'] = $targetRatio;
 			
 			@endphp
 
-		<div class="mt-6 max-w-2xl mx-auto bg-white/5 p-6 rounded-lg">
+		<div class="mt-6 max-w-4xl mx-auto bg-white/5 p-6 rounded-lg">
 			<h3 class="text-lg font-semibold text-white text-center mb-6">Resultado</h3>
 			
 			@if(isset($calcs['passo']))
 				<div class="text-center mb-6 pb-6 border-b border-gray-600">
 					<p class="text-sm text-gray-300 mb-2">Passo Calculado (mm):</p>
-					<div class="text-4xl font-bold text-yellow-400">{{ number_format($calcs['passo'], 4) }}</div>
+					<div class="text-4xl font-bold text-yellow-400">{{ number_format($calcs['passo'], 5) }}</div>
 				</div>
 			@endif
 
 			@if(isset($calcs['angulo_radianos']))
 				<div class="grid grid-cols-1 sm:grid-cols-4 gap-4 mb-6 pb-6 border-b border-gray-600 text-center">
 					<div>
-						<p class="text-sm text-gray-300 mb-1">Ângulo de pressão (graus):</p>
-						<p class="text-lg font-semibold text-white">{{ number_format(floatval($angulo_pressao), 5) }}</p>
+						<p class="text-sm text-gray-300 mb-1">Ângulo (graus):</p>
+						<p class="text-lg font-semibold text-white">{{ number_format($calcs['angulo_graus'], 5) }}</p>
 					</div>
 					<div>
 						<p class="text-sm text-gray-300 mb-1">Ângulo (rad):</p>
@@ -314,12 +285,12 @@
 					<p class="text-center mb-4 font-semibold text-white">Detalhes dos Cálculos</p>
 					<div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
 						<div class="bg-black/30 p-3 rounded">
-							<span class="text-gray-300">Ângulo de pressão (graus):</span>
-							<span class="text-white">{{ number_format($calcs['angulo_pressao'], 5) }}</span>
+							<span class="text-gray-300">Ângulo (graus):</span>
+							<span class="text-white">{{ number_format($calcs['angulo_graus'], 5) }}</span>
 						</div>
 						<div class="bg-black/30 p-3 rounded">
-							<span class="text-gray-300">Ângulo de hélice (graus):</span>
-							<span class="text-white">{{ number_format($calcs['angulo_helice'], 5) }}</span>
+							<span class="text-gray-300">Pi (arredondado):</span>
+							<span class="text-white">{{ number_format($calcs['pi'], 4) }}</span>
 						</div>
 						<div class="bg-black/30 p-3 rounded">
 							<span class="text-gray-300">Ângulo (rad):</span>
@@ -338,47 +309,44 @@
 							<span class="text-white">{{ number_format($calcs['quant_avanco'], 5) }}</span>
 						</div>
 						<div class="bg-black/30 p-3 rounded">
-							<span class="text-gray-300">Parte 1:</span>
-							<span class="text-white">{{ number_format($calcs['parte1'], 5) }}</span>
+							<span class="text-gray-300">Cálculo um:</span>
+							<span class="text-white">{{ number_format($calcs['calculo_um'], 5) }}</span>
 						</div>
 						<div class="bg-black/30 p-3 rounded">
-							<span class="text-gray-300">Parte 2:</span>
-							<span class="text-white">{{ number_format($calcs['parte2'], 5) }}</span>
+							<span class="text-gray-300">Cálculo dois:</span>
+							<span class="text-white">{{ number_format($calcs['calculo_dois'], 5) }}</span>
 						</div>
 						<div class="bg-black/30 p-3 rounded">
-							<span class="text-gray-300">Parte 3:</span>
-							<span class="text-white">{{ number_format($calcs['parte3'], 5) }}</span>
+							<span class="text-gray-300">Cálculo três:</span>
+							<span class="text-white">{{ number_format($calcs['calculo_tres'], 5) }}</span>
 						</div>
 						<div class="bg-black/30 p-3 rounded">
 							<span class="text-gray-300">Passo:</span>
 							<span class="text-white">{{ number_format($calcs['passo'], 5) }}</span>
 						</div>
-						<div class="bg-black/30 p-3 rounded">
-							<span class="text-gray-300">Target ratio:</span>
-							<span class="text-white">{{ number_format($calcs['targetRatio'], 5) }}</span>
-						</div>
 					</div>
 				</div>
 			@endif
 
-			@if(isset($calcs['validCombinations']) && count($calcs['validCombinations']) > 0)
+			@if(isset($calcs['melhores']) && count($calcs['melhores']) > 0)
 				<div>
-					<p class="text-center mb-4 font-semibold text-white">Engrenagens Recomendadas (A-B-C-D):</p>
+					<p class="text-center mb-4 font-semibold text-white">Melhores combinações de engrenagens:</p>
 					<div class="space-y-2 max-h-64 overflow-y-auto">
-						@foreach($calcs['validCombinations'] as $index => $combo)
-							@if($index < 10)
-								<div class="bg-black/30 p-3 rounded text-sm font-mono">
-									<span class="text-yellow-400 font-bold">{{ $combo['A'] }}</span>-<span class="text-cyan-400 font-bold">{{ $combo['B'] }}</span>-<span class="text-green-400 font-bold">{{ $combo['C'] }}</span>-<span class="text-pink-400 font-bold">{{ $combo['D'] }}</span>
-									<span class="text-gray-400 ml-3">(Erro: {{ number_format($combo['error'], 6) }})</span>
-								</div>
-							@endif
+						@foreach($calcs['melhores'] as $combo)
+							<div class="bg-black/30 p-3 rounded text-sm font-mono">
+								A: <span class="text-yellow-400 font-bold">{{ $combo['A'] }}</span>,
+								B: <span class="text-cyan-400 font-bold">{{ $combo['B'] }}</span>,
+								C: <span class="text-green-400 font-bold">{{ $combo['C'] }}</span>,
+								D: <span class="text-pink-400 font-bold">{{ $combo['D'] }}</span>
+								<span class="text-gray-400 ml-3">Erro: {{ number_format($combo['Error'], 6) }}</span>
+							</div>
 						@endforeach
 					</div>
-					<p class="text-xs text-gray-400 mt-3 text-center">Mostrando 10 melhores combinações de {{ count($calcs['validCombinations']) }} encontradas.</p>
+					<p class="text-xs text-gray-400 mt-3 text-center">Mostrando 10 melhores combinações encontradas.</p>
 				</div>
 			@else
 				<div class="text-center text-gray-400">
-					Nenhuma combinação de engrenagens encontrada com a tolerância de 0.001
+					Nenhuma combinação encontrada dentro da tolerância.
 				</div>
 			@endif
 		</div>
@@ -397,29 +365,11 @@
 			if (!form) return;
 
 			form.addEventListener('submit', function(event) {
-				const fields = form.querySelectorAll('input[type="number"], input[data-angle="true"]');
+				const fields = form.querySelectorAll('input[type="number"]');
 				let hasError = false;
-
-				const isValidAngle = (value) => {
-					const raw = value.trim();
-					if (raw === '') return false;
-					const normalized = raw.replace(',', '.');
-					if (!normalized.includes('°')) {
-						const numberValue = Number(normalized);
-						return !Number.isNaN(numberValue) && numberValue >= 0;
-					}
-					const pattern = /^\s*[0-9]+(?:\.[0-9]+)?\s*°\s*([0-9]+(?:\.[0-9]+)?)?\s*(?:"|”)?\s*$/;
-					return pattern.test(normalized);
-				};
 
 				fields.forEach((field) => {
 					const value = field.value.trim();
-					if (field.dataset.angle === 'true') {
-						if (!isValidAngle(value)) {
-							hasError = true;
-						}
-						return;
-					}
 					const numberValue = Number(value);
 					if (value === '' || Number.isNaN(numberValue) || numberValue < 0) {
 						hasError = true;

@@ -43,6 +43,20 @@
             box-shadow: none !important;
             border: none !important;
         }
+
+        header .flex.gap-12.mt-3 a,
+        header .flex.gap-6.mt-3 a {
+            border: 1px solid #2563eb !important;
+            border-radius: 9999px;
+            padding: 0.25rem 0.75rem;
+            transition: background-color 0.2s ease, color 0.2s ease;
+        }
+
+        header .flex.gap-12.mt-3 a:hover,
+        header .flex.gap-6.mt-3 a:hover {
+            background-color: #93c5fd !important;
+            color: #1f2937 !important;
+        }
     </style>
 </head>
 <body class="bg-black text-white min-h-screen" id="main-body">
@@ -62,7 +76,8 @@
             
             <!-- Menu abaixo da logo centralizado -->
             <div class="flex gap-12 mt-3 items-center justify-center">
-                <a href="{{ url('/pagamentos') }}" class="text-black font-bold text-lg hover:text-gray-600 transition" style="text-decoration: none;">PAGAMENTO</a>
+                <a href="{{ route('engrenagens') }}" class="text-black font-bold text-lg hover:text-gray-600 transition" style="text-decoration: none;">ENGRENAGENS</a>
+                <a href="{{ url('/pagamentos') }}" class="text-black font-bold text-lg hover:text-gray-600 transition" style="text-decoration: none;">PAGAMENTOS</a>
                 <a href="{{ url('/sobre') }}" class="text-black font-bold text-lg hover:text-gray-600 transition" style="text-decoration: none;">SOBRE</a>
             </div>
             
@@ -121,8 +136,8 @@
     <a href="{{ route('medidaw.helicoidal') }}" class="btn-custom inline-block text-center">MEDIDA W(K) HELICOIDAL</a>
     <a href="{{ route('helicoidal') }}" class="btn-custom inline-block text-center">ENGRENAGEM HELICOIDAL</a>
     <a href="{{ route('kit.com-passo') }}" class="btn-custom inline-block text-center">KIT ENGRENAGEM COM PASSO</a>
-    <a href="#" class="btn-custom inline-block text-center">EM PROGRESSO</a>
-    <a href="#" class="btn-custom inline-block text-center">EM PROGRESSO</a>
+    <a href="{{ route('medida.cordal') }}" class="btn-custom inline-block text-center">EM PROGRESSO</a>
+    <a href="{{ route('em-progresso-2') }}" class="btn-custom inline-block text-center">EM PROGRESSO</a>
 </div>
 
     </main>

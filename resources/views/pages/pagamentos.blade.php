@@ -16,6 +16,9 @@
 			<a href="{{ url('/') }}">
 				<img src="/logo.png" alt="Logo" class="object-contain" style="height: 160px;">
 			</a>
+			<div class="absolute left-1/2 -translate-x-1/2 bottom-4 flex items-center justify-center">
+				<a href="{{ url('/') }}" class="text-black font-bold text-sm hover:text-gray-600 transition" style="text-decoration: none;">INCIO</a>
+			</div>
 			<div class="absolute right-8 flex gap-4 items-center top-4">
 				<a href="#" class="bg-black text-white px-6 py-2 rounded font-semibold hover:bg-gray-800 transition">LOGIN</a>
 				<a href="#" class="bg-black text-white px-6 py-2 rounded font-semibold hover:bg-gray-800 transition">CADASTRE-SE</a>
