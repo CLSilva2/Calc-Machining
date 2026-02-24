@@ -57,6 +57,16 @@
 			background-color: #93c5fd !important;
 			color: #1f2937 !important;
 		}
+
+		input[type=number]::-webkit-inner-spin-button,
+		input[type=number]::-webkit-outer-spin-button {
+			-webkit-appearance: none;
+			margin: 0;
+		}
+
+		input[type=number] {
+			-moz-appearance: textfield;
+		}
 	</style>
 </head>
 <body class="bg-black text-white min-h-screen" id="main-body">
@@ -104,13 +114,82 @@
 	</header>
 
 	<main class="max-w-7xl mx-auto px-4 py-12">
-		<div class="text-center mb-12">
-			<h1 class="text-4xl md:text-5xl font-bold text-white mb-4" style="font-family: 'Roboto', sans-serif;">
+		<div class="text-center mb-10">
+			<h1 class="text-5xl md:text-6xl font-bold text-white mb-4" style="font-family: 'Roboto', sans-serif;">
 				ENGRENAGENS
 			</h1>
-			<p class="text-lg text-gray-300" style="font-family: 'Roboto', sans-serif;">
-				PÁGINA DE ENGRENAGENS EM DESENVOLVIMENTO
+			<p class="text-xl text-gray-300" style="font-family: 'Roboto', sans-serif;">
+				ESCOLHA QUAIS ENGRENAGENS IRÁ USAR PARA OS CÁLCULOS
+                <br>
 			</p>
+		</div>
+
+		<div class="max-w-6xl mx-auto bg-white/5 p-6 rounded-lg shadow-md">
+			@php
+				$configuracaoSalva = session('engrenagens_configuracao', 'minmax');
+				$engrenagemMinSalva = session('engrenagens_min', 18);
+				$engrenagemMaxSalva = session('engrenagens_max', 127);
+				$engrenagensSelecionadasSalvas = session('engrenagens_selecionadas', []);
+			@endphp
+			<form id="engrenagens-config-form" class="space-y-6" action="{{ route('engrenagens.save') }}" method="POST">
+				@csrf
+				@if(session('status'))
+					<div class="text-green-400 text-center font-semibold">{{ session('status') }}</div>
+				@endif
+				@if($errors->any())
+					<div class="text-red-400 text-center font-semibold">{{ $errors->first() }}</div>
+				@endif
+				<div>
+					<p class="text-lg text-gray-200 mb-3 text-center font-semibold">Qual configuração você quer usar?</p>
+					<div class="flex flex-wrap gap-4 justify-center">
+						<label class="inline-flex items-center gap-2 text-lg text-gray-200">
+							<input type="radio" name="configuracao" value="minmax" {{ $configuracaoSalva === 'minmax' ? 'checked' : '' }}>
+							<span>Min - Max</span>
+						</label>
+						<label class="inline-flex items-center gap-2 text-lg text-gray-200">
+							<input type="radio" name="configuracao" value="selecionada" {{ $configuracaoSalva === 'selecionada' ? 'checked' : '' }}>
+							<span>Selecionar</span>
+						</label>
+					</div>
+				</div>
+
+				<div id="minmax-section" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+					<div>
+						<label for="engrenagem_min" class="block text-base font-medium text-gray-200">Engrenagem mínima</label>
+						<input id="engrenagem_min" name="engrenagem_min" type="number" min="18" max="127" class="mt-1 block w-full px-3 py-2 bg-white/10 border border-gray-700 rounded text-white focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Ex: 18" value="{{ old('engrenagem_min', $engrenagemMinSalva) }}">
+					</div>
+					<div>
+						<label for="engrenagem_max" class="block text-base font-medium text-gray-200">Engrenagem máxima</label>
+						<input id="engrenagem_max" name="engrenagem_max" type="number" min="18" max="127" class="mt-1 block w-full px-3 py-2 bg-white/10 border border-gray-700 rounded text-white focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Ex: 127" value="{{ old('engrenagem_max', $engrenagemMaxSalva) }}">
+					</div>
+				</div>
+
+				<div id="selecionada-section" class="hidden">
+					<p class="text-lg text-gray-200 mb-3 text-center font-semibold">Selecione suas engrenagens:</p>
+					@php
+						$numerosEngrenagens = range(18, 127);
+					@endphp
+					<div class="bg-black/20 rounded p-3 grid grid-cols-4 gap-3">
+						@foreach($numerosEngrenagens as $numero)
+							<label class="flex items-center gap-3 text-xl text-gray-200 rounded px-2 py-1">
+								<input type="checkbox" name="engrenagens[]" value="{{ $numero }}" class="w-6 h-6" {{ in_array($numero, old('engrenagens', $engrenagensSelecionadasSalvas), true) ? 'checked' : '' }}>
+								<span>{{ $numero }}</span>
+							</label>
+						@endforeach
+					</div>
+					<div class="mt-4 flex justify-center">
+						<button type="button" id="limpar-selecao" class="bg-gray-700 hover:bg-gray-600 text-white font-semibold text-base px-6 py-2 rounded transition">
+							Limpar
+						</button>
+					</div>
+				</div>
+
+				<div class="pt-2 flex justify-center">
+					<button type="submit" class="bg-blue-600 hover:bg-blue-500 text-white font-semibold text-lg px-8 py-2 rounded transition">
+						Salvar
+					</button>
+				</div>
+			</form>
 		</div>
 	</main>
 
@@ -119,5 +198,37 @@
 			<p class="text-xs">&copy; {{ date('Y') }} Calc Machining. Todos os direitos reservados.</p>
 		</div>
 	</footer>
+
+	<script>
+		(function () {
+			const radios = document.querySelectorAll('input[name="configuracao"]');
+			const minMaxSection = document.getElementById('minmax-section');
+			const selecionadaSection = document.getElementById('selecionada-section');
+			const limparSelecaoButton = document.getElementById('limpar-selecao');
+
+			const toggleSections = () => {
+				const selected = document.querySelector('input[name="configuracao"]:checked')?.value;
+				if (selected === 'selecionada') {
+					minMaxSection.classList.add('hidden');
+					selecionadaSection.classList.remove('hidden');
+					return;
+				}
+
+				minMaxSection.classList.remove('hidden');
+				selecionadaSection.classList.add('hidden');
+			};
+
+			radios.forEach((radio) => radio.addEventListener('change', toggleSections));
+			if (limparSelecaoButton) {
+				limparSelecaoButton.addEventListener('click', () => {
+					const checkboxes = selecionadaSection.querySelectorAll('input[type="checkbox"][name="engrenagens[]"]');
+					checkboxes.forEach((checkbox) => {
+						checkbox.checked = false;
+					});
+				});
+			}
+			toggleSections();
+		})();
+	</script>
 </body>
 </html>

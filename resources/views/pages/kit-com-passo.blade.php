@@ -157,39 +157,84 @@
 		{{-- Resultado dos cálculos --}}
 		@if(request()->has('passo'))
 			@php
-				$engrenagens = [24, 26, 27, 28, 29, 30, 31, 32, 33, 34, 36, 40, 44, 48, 52, 56, 60, 64, 72, 80, 83, 88, 100, 115, 127];
+				$engrenagensPadrao = [18, 20, 25, 30, 35, 40, 50, 60, 80, 100];
+				$engrenagensSalvas = session('engrenagens_selecionadas', []);
+				$engrenagens = is_array($engrenagensSalvas) && count($engrenagensSalvas) > 0
+					? array_values(array_unique(array_map('intval', $engrenagensSalvas)))
+					: $engrenagensPadrao;
+				sort($engrenagens);
 				$rawPasso = str_replace(',', '.', (string) request()->input('passo'));
 				$targetPasso = is_numeric($rawPasso) ? (float) $rawPasso : null;
-				$validCombinations = [];
-				$melhor = null;
+				$melhores = [];
 
 				if (is_numeric($targetPasso)) {
+					$ratiosCD = [];
+
+					foreach ($engrenagens as $C) {
+						foreach ($engrenagens as $D) {
+							$ratiosCD[] = [
+								'ratio' => $C / $D,
+								'C' => $C,
+								'D' => $D,
+							];
+                            
+						}
+					}
+
+					usort($ratiosCD, function ($x, $y) {
+						return $x['ratio'] <=> $y['ratio'];
+					});
+
+					$ratiosCDValores = array_column($ratiosCD, 'ratio');
+					$ratiosCDCount = count($ratiosCDValores);
+
 					foreach ($engrenagens as $A) {
 						foreach ($engrenagens as $B) {
 							$AB = $A / $B;
-							foreach ($engrenagens as $C) {
-								foreach ($engrenagens as $D) {
-									$ratio = $AB * ($C / $D);
-									$error = abs($ratio - $targetPasso);
+							$alvoCD = $AB != 0.0 ? ($targetPasso / $AB) : 0.0;
 
-									$validCombinations[] = [
-										'A' => $A,
-										'B' => $B,
-										'C' => $C,
-										'D' => $D,
-										'Ratio' => $ratio,
-										'Error' => $error,
-									];
+							$left = 0;
+							$right = $ratiosCDCount;
+
+							while ($left < $right) {
+								$mid = intdiv($left + $right, 2);
+								if ($ratiosCDValores[$mid] < $alvoCD) {
+									$left = $mid + 1;
+								} else {
+									$right = $mid;
 								}
+							}
+
+							$candidateIndexes = [];
+							if ($left < $ratiosCDCount) {
+								$candidateIndexes[] = $left;
+							}
+							if ($left > 0) {
+								$candidateIndexes[] = $left - 1;
+							}
+
+							foreach ($candidateIndexes as $candidateIndex) {
+								$candidateCD = $ratiosCD[$candidateIndex];
+								$ratio = $AB * $candidateCD['ratio'];
+								$error = abs($ratio - $targetPasso);
+
+								$melhores[] = [
+									'A' => $A,
+									'B' => $B,
+									'C' => $candidateCD['C'],
+									'D' => $candidateCD['D'],
+									'Ratio' => $ratio,
+									'Error' => $error,
+								];
 							}
 						}
 					}
 
-					usort($validCombinations, function ($a, $b) {
+					usort($melhores, function ($a, $b) {
 						return $a['Error'] <=> $b['Error'];
 					});
 
-					$melhor = $validCombinations[0] ?? null;
+					$melhores = array_slice($melhores, 0, 10);
 				}
 				
 			@endphp
@@ -201,7 +246,7 @@
 						Passo informado: <strong class="text-yellow-400">{{ number_format($targetPasso, 5, '.', '') }}</strong>
 					</div>
 
-					@if($melhor)
+					@if(count($melhores) > 0)
 						<div class="overflow-x-auto">
 							<table class="w-full text-sm text-left text-gray-200">
 								<thead class="text-xs uppercase text-gray-300 border-b border-gray-700">
@@ -216,18 +261,20 @@
 									</tr>
 								</thead>
 								<tbody>
-									@php
-										$erroPercentual = $targetPasso > 0 ? ($melhor['Error'] / $targetPasso) * 100 : 0;
-									@endphp
-									<tr class="resultado-linha">
-										<td class="py-2 px-2 font-semibold">{{ $melhor['A'] }}</td>
-										<td class="py-2 px-2 font-semibold">{{ $melhor['B'] }}</td>
-										<td class="py-2 px-2 font-semibold">{{ $melhor['C'] }}</td>
-										<td class="py-2 px-2 font-semibold">{{ $melhor['D'] }}</td>
-										<td class="py-2 px-2 font-semibold">{{ number_format($melhor['Ratio'], 5  , '.', '') }}</td>
-										<td class="py-2 px-2 font-semibold">{{ number_format($melhor['Error'], 6, '.', '') }}</td>
-										<td class="py-2 px-2 font-semibold">{{ number_format($erroPercentual, 4, '.', '') }}%</td>
-									</tr>
+									@foreach($melhores as $resultado)
+										@php
+											$erroPercentual = $targetPasso > 0 ? ($resultado['Error'] / $targetPasso) * 100 : 0;
+										@endphp
+										<tr class="resultado-linha">
+											<td class="py-2 px-2 font-semibold">{{ $resultado['A'] }}</td>
+											<td class="py-2 px-2 font-semibold">{{ $resultado['B'] }}</td>
+											<td class="py-2 px-2 font-semibold">{{ $resultado['C'] }}</td>
+											<td class="py-2 px-2 font-semibold">{{ $resultado['D'] }}</td>
+											<td class="py-2 px-2 font-semibold">{{ number_format($resultado['Ratio'], 5, '.', '') }}</td>
+											<td class="py-2 px-2 font-semibold">{{ number_format($resultado['Error'], 6, '.', '') }}</td>
+											<td class="py-2 px-2 font-semibold">{{ number_format($erroPercentual, 4, '.', '') }}%</td>
+										</tr>
+									@endforeach
 								</tbody>
 							</table>
 						</div>
