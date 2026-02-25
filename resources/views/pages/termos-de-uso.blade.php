@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Sobre - Calc Machining</title>
+	<title>Termos de Uso - Calc Machining</title>
 	@vite(['resources/css/app.css', 'resources/js/app.js', 'resources/js/theme-toggle.js'])
 	<style>
 		html.light-mode {
@@ -18,24 +18,16 @@
 		html.light-mode h3,
 		html.light-mode h4,
 		html.light-mode h5,
-		html.light-mode h6 {
-			color: #000000 !important;
-		}
+		html.light-mode h6,
 		html.light-mode p {
 			color: #000000 !important;
 		}
-		html.light-mode .sobre-content,
-		html.light-mode .sobre-content * {
-			color: #000000 !important;
-		}
-		html.light-mode .sobre-content li::marker {
+		html.light-mode .terms-content,
+		html.light-mode .terms-content * {
 			color: #000000 !important;
 		}
 		html.light-mode footer {
 			background-color: #ffffff !important;
-			color: #000000 !important;
-		}
-		html.light-mode footer p {
 			color: #000000 !important;
 		}
 		html.light-mode footer * {
@@ -77,7 +69,6 @@
 			</a>
 			<div class="flex gap-12 mt-3 items-center justify-center">
 				<a href="{{ url('/') }}" class="text-black font-bold text-lg hover:text-gray-600 transition" style="text-decoration: none;">INICIO</a>
-				<a href="{{ url('/engrenagens') }}" class="text-black font-bold text-lg hover:text-gray-600 transition" style="text-decoration: none;">CONFIGURAR ENGRENAGENS</a>
 			</div>
 
 			<div class="absolute right-8 flex gap-4 items-center top-4">
@@ -128,64 +119,80 @@
 	</header>
 
 	<main class="max-w-7xl mx-auto px-4 py-12">
-		<div class="sobre-content max-w-4xl mx-auto text-gray-300 text-lg leading-relaxed space-y-6">
-			<h1 class="text-3xl font-bold text-white text-center">SOBRE O CALC MACHINING</h1>
+		<div class="terms-content max-w-4xl mx-auto text-gray-300 text-sm leading-relaxed space-y-5">
+			<h1 class="text-xs font-bold text-white text-center mt-2">TERMOS DE USO</h1>
 			<br>
+			<p><strong>Última atualização:</strong> 24/02/2026</p>
 
-			<p>
-				O Calc Machining é um site de cálculos de usinagem para processos de torno, fresagem e outras operações mecânicas.
-			</p>
+			<div class="space-y-2">
+				<br>
+				<h2 class="text-xs font-bold text-white" style="font-size:14px;">1. OBJETO</h2>
+				<br>
+				<p>A plataforma oferece ferramentas de cálculo automatizado para usinagem industrial.</p>
+			</div>
 
-			<p>
-				Criado em 2026, o sistema nasceu a partir da necessidade real observada nas tornearias e oficinas da região, onde muitos cálculos ainda são realizados manualmente — utilizando tabelas impressas, anotações antigas ou cálculos feitos individualmente na calculadora.
-			</p>
-
-			<div>
-				<p class="mb-2">Na prática, isso pode gerar:</p>
+			<div class="space-y-2">
+				<br>
+				<h2 class="text-xs font-bold text-white" style="font-size:14px;">2. CADASTRO</h2>
+				<br>
+				<p>Para acessar o sistema, o usuário deve:</p>
 				<ul class="list-disc list-inside space-y-1">
-					<li>Perda de tempo</li>
-					<li>Risco de erro</li>
-					<li>Redução de produtividade</li>
+					<li>Fornecer informações verdadeiras</li>
+					<li>Manter seus dados atualizados</li>
+					<li>Manter senha em sigilo</li>
 				</ul>
 			</div>
 
-			<div>
-				<p class="mb-2">O Calc Machining foi desenvolvido para centralizar e automatizar cálculos técnicos essenciais, como:</p>
+			<div class="space-y-2">
+				<br>
+				<h2 class="text-xs font-bold text-white" style="font-size:14px;">3. RESPONSABILIDADE TÉCNICA</h2>
+				<br>
+				<p>Os cálculos fornecidos são ferramentas auxiliares.</p>
+				<p>O usuário é responsável por:</p>
 				<ul class="list-disc list-inside space-y-1">
-					<li>Velocidade de corte (Vc)</li>
-					<li>Rotação do eixo-árvore (RPM)</li>
-					<li>Avanço por volta e por dente</li>
-					<li>Tempo de usinagem</li>
-					<li>Cálculo para operações em torno</li>
-					<li>Cálculo para fresamento</li>
+					<li>Conferir parâmetros</li>
+					<li>Validar condições de máquina</li>
+					<li>Garantir segurança operacional</li>
 				</ul>
+				<p>A plataforma não se responsabiliza por danos decorrentes do uso incorreto dos cálculos.</p>
 			</div>
 
-			<p>
-				A plataforma foi projetada para oferecer resultados rápidos, precisos e confiáveis, reduzindo falhas operacionais e aumentando a eficiência no chão de fábrica.
-			</p>
-
-			<br>
-			<h3 class="text-2xl font-bold text-white">Modelo de Negócio</h3>
-			<br>
-
-			<p>
-				O Calc Machining está disponível por meio de locação de acesso, permitindo que oficinas, tornearias e empresas tenham uma ferramenta técnica profissional sem necessidade de desenvolvimento próprio.
-			</p>
-
-			<div>
-				<p class="mb-2">Ao alugar o acesso, o profissional passa a contar com:</p>
-				<ul class="list-disc list-inside space-y-1">
-					<li>Agilidade na definição de parâmetros</li>
-					<li>Redução de erros técnicos</li>
-					<li>Maior produtividade</li>
-					<li>Apoio na tomada de decisão</li>
-				</ul>
+			<div class="space-y-2">
+				<br>
+				<h2 class="text-xs font-bold text-white" style="font-size:14px;">4. PLANOS E PAGAMENTOS</h2>
+				<br>
+				<p>O acesso é condicionado ao pagamento do plano contratado (mensal, trimestral ou anual).</p>
+				<p>Pagamentos são processados por empresa terceirizada.</p>
+				<p>O não pagamento implica suspensão do acesso.</p>
 			</div>
 
-			<p>
-				O objetivo é trazer tecnologia aplicada diretamente à operação, tornando a usinagem mais precisa, organizada e competitiva.
-			</p>
+			<div class="space-y-2">
+				<br>
+				<h2 class="text-xs font-bold text-white" style="font-size:14px;">5. CANCELAMENTO</h2>
+				<br>
+				<p>O usuário pode cancelar a qualquer momento.</p>
+				<p>Não há reembolso proporcional salvo previsão específica no plano.</p>
+			</div>
+
+			<div class="space-y-2">
+				<br>
+				<h2 class="text-xs font-bold text-white" style="font-size:14px;">6. PROPRIEDADE INTELECTUAL</h2>
+				<br>
+				<p>O sistema, algoritmos e interface são protegidos por direitos autorais.</p>
+				<p>É proibida cópia, revenda ou redistribuição.</p>
+			</div>
+
+			<div class="space-y-2">
+				<br>
+				<h2 class="text-xs font-bold text-white" style="font-size:14px;">7. EXCLUSÃO DA CONTA</h2>
+				<br>
+				<p>A empresa pode suspender contas em caso de:</p>
+				<ul class="list-disc list-inside space-y-1">
+					<li>Uso indevido</li>
+					<li>Compartilhamento de login</li>
+					<li>Violação dos termos</li>
+				</ul>
+			</div>
 		</div>
 	</main>
 

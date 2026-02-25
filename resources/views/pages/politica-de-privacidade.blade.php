@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Sobre - Calc Machining</title>
+	<title>Política de Privacidade - Calc Machining</title>
 	@vite(['resources/css/app.css', 'resources/js/app.js', 'resources/js/theme-toggle.js'])
 	<style>
 		html.light-mode {
@@ -18,24 +18,16 @@
 		html.light-mode h3,
 		html.light-mode h4,
 		html.light-mode h5,
-		html.light-mode h6 {
-			color: #000000 !important;
-		}
+		html.light-mode h6,
 		html.light-mode p {
 			color: #000000 !important;
 		}
-		html.light-mode .sobre-content,
-		html.light-mode .sobre-content * {
-			color: #000000 !important;
-		}
-		html.light-mode .sobre-content li::marker {
+		html.light-mode .privacy-content,
+		html.light-mode .privacy-content * {
 			color: #000000 !important;
 		}
 		html.light-mode footer {
 			background-color: #ffffff !important;
-			color: #000000 !important;
-		}
-		html.light-mode footer p {
 			color: #000000 !important;
 		}
 		html.light-mode footer * {
@@ -77,7 +69,6 @@
 			</a>
 			<div class="flex gap-12 mt-3 items-center justify-center">
 				<a href="{{ url('/') }}" class="text-black font-bold text-lg hover:text-gray-600 transition" style="text-decoration: none;">INICIO</a>
-				<a href="{{ url('/engrenagens') }}" class="text-black font-bold text-lg hover:text-gray-600 transition" style="text-decoration: none;">CONFIGURAR ENGRENAGENS</a>
 			</div>
 
 			<div class="absolute right-8 flex gap-4 items-center top-4">
@@ -128,64 +119,107 @@
 	</header>
 
 	<main class="max-w-7xl mx-auto px-4 py-12">
-		<div class="sobre-content max-w-4xl mx-auto text-gray-300 text-lg leading-relaxed space-y-6">
-			<h1 class="text-3xl font-bold text-white text-center">SOBRE O CALC MACHINING</h1>
+		<div class="privacy-content max-w-4xl mx-auto text-gray-300 text-sm leading-relaxed space-y-5">
+			<h1 class="text-xs font-bold text-white text-center mt-2">POLÍTICA DE PRIVACIDADE</h1>
 			<br>
+			<p><strong>Última atualização:</strong> 24/02/2026</p>
 
-			<p>
-				O Calc Machining é um site de cálculos de usinagem para processos de torno, fresagem e outras operações mecânicas.
-			</p>
+			<div class="space-y-2">
+				<br>
+				<h2 class="text-xs font-bold text-white" style="font-size:14px;">1. QUEM SOMOS</h2>
+				<br>
+				<p>Somos uma plataforma digital de cálculos automatizados para usinagem em máquinas como torno, fresa, retífica e centros de usinagem CNC.</p>
+				<p><strong>Responsável pelo tratamento de dados:</strong> Calc Machining<br><strong>Email para contato:</strong> contato@calcmachining.com.br</p>
+			</div>
 
-			<p>
-				Criado em 2026, o sistema nasceu a partir da necessidade real observada nas tornearias e oficinas da região, onde muitos cálculos ainda são realizados manualmente — utilizando tabelas impressas, anotações antigas ou cálculos feitos individualmente na calculadora.
-			</p>
-
-			<div>
-				<p class="mb-2">Na prática, isso pode gerar:</p>
+			<div class="space-y-2">
+				<br>
+				<h2 class="text-xs font-bold text-white" style="font-size:14px;">2. QUAIS DADOS COLETAMOS</h2>
+				<br>
+				<p>Coletamos os seguintes dados pessoais:</p>
 				<ul class="list-disc list-inside space-y-1">
-					<li>Perda de tempo</li>
-					<li>Risco de erro</li>
-					<li>Redução de produtividade</li>
+					<li>Nome</li>
+					<li>CPF</li>
+					<li>Email</li>
+					<li>Telefone</li>
+					<li>Dados de login</li>
+					<li>Informações de uso da plataforma</li>
+				</ul>
+				<p>Não armazenamos dados de cartão de crédito.</p>
+				<p>Pagamentos são processados por plataforma externa segura (Stripe).</p>
+			</div>
+
+			<div class="space-y-2">
+				<br>
+				<h2 class="text-xs font-bold text-white" style="font-size:14px;">3. FINALIDADE DA COLETA</h2>
+				<br>
+				<p>Utilizamos os dados para:</p>
+				<ul class="list-disc list-inside space-y-1">
+					<li>Criar e gerenciar contas</li>
+					<li>Processar pagamentos</li>
+					<li>Emitir notas fiscais (quando aplicável)</li>
+					<li>Melhorar funcionalidades do sistema</li>
+					<li>Enviar comunicações relacionadas ao serviço</li>
 				</ul>
 			</div>
 
-			<div>
-				<p class="mb-2">O Calc Machining foi desenvolvido para centralizar e automatizar cálculos técnicos essenciais, como:</p>
+			<div class="space-y-2">
+				<br>
+				<h2 class="text-xs font-bold text-white" style="font-size:14px;">4. COMPARTILHAMENTO DE DADOS</h2>
+				<br>
+				<p>Os dados podem ser compartilhados com:</p>
 				<ul class="list-disc list-inside space-y-1">
-					<li>Velocidade de corte (Vc)</li>
-					<li>Rotação do eixo-árvore (RPM)</li>
-					<li>Avanço por volta e por dente</li>
-					<li>Tempo de usinagem</li>
-					<li>Cálculo para operações em torno</li>
-					<li>Cálculo para fresamento</li>
+					<li>Stripe (processamento de pagamento)</li>
+					<li>Serviços de hospedagem (Hostinger)</li>
+					<li>Serviços de email</li>
+				</ul>
+				<p>Não vendemos dados pessoais.</p>
+			</div>
+
+			<div class="space-y-2">
+				<br>
+				<h2 class="text-xs font-bold text-white" style="font-size:14px;">5. ARMAZENAMENTO E SEGURANÇA</h2>
+				<br>
+				<p>Adotamos medidas técnicas como:</p>
+				<ul class="list-disc list-inside space-y-1">
+					<li>Criptografia de senha</li>
+					<li>Acesso restrito ao banco de dados</li>
+					<li>Conexão HTTPS (SSL)</li>
+					<li>Controle de acesso administrativo</li>
 				</ul>
 			</div>
 
-			<p>
-				A plataforma foi projetada para oferecer resultados rápidos, precisos e confiáveis, reduzindo falhas operacionais e aumentando a eficiência no chão de fábrica.
-			</p>
-
-			<br>
-			<h3 class="text-2xl font-bold text-white">Modelo de Negócio</h3>
-			<br>
-
-			<p>
-				O Calc Machining está disponível por meio de locação de acesso, permitindo que oficinas, tornearias e empresas tenham uma ferramenta técnica profissional sem necessidade de desenvolvimento próprio.
-			</p>
-
-			<div>
-				<p class="mb-2">Ao alugar o acesso, o profissional passa a contar com:</p>
+			<div class="space-y-2">
+				<br>
+				<h2 class="text-xs font-bold text-white" style="font-size:14px;">6. DIREITOS DO TITULAR</h2>
+				<br>
+				<p>O usuário pode:</p>
 				<ul class="list-disc list-inside space-y-1">
-					<li>Agilidade na definição de parâmetros</li>
-					<li>Redução de erros técnicos</li>
-					<li>Maior produtividade</li>
-					<li>Apoio na tomada de decisão</li>
+					<li>Solicitar cópia dos dados</li>
+					<li>Corrigir dados</li>
+					<li>Solicitar exclusão da conta</li>
+					<li>Revogar consentimento</li>
+				</ul>
+				<p>Solicitações devem ser feitas atraves da plataforma.</p>
+			</div>
+
+			<div class="space-y-2">
+				<br>
+				<h2 class="text-xs font-bold text-white" style="font-size:14px;">7. EXCLUSÃO DE DADOS</h2>
+				<br>
+				<p>Ao solicitar exclusão:</p>
+				<ul class="list-disc list-inside space-y-1">
+					<li>A conta será desativada</li>
+					<li>Dados poderão ser mantidos apenas quando exigido por lei</li>
 				</ul>
 			</div>
 
-			<p>
-				O objetivo é trazer tecnologia aplicada diretamente à operação, tornando a usinagem mais precisa, organizada e competitiva.
-			</p>
+			<div class="space-y-2">
+				<br>
+				<h2 class="text-xs font-bold text-white" style="font-size:14px;">8. ALTERAÇÕES</h2>
+				<br>
+				<p>Esta política pode ser atualizada a qualquer momento.</p>
+			</div>
 		</div>
 	</main>
 

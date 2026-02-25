@@ -84,4 +84,65 @@ html.light-mode .bg-white {
     background-color: #000000;
 }
 
+html.light-mode header > div > .flex.gap-12.mt-3 a,
+html.light-mode header > div > .flex.gap-6.mt-3 a {
+    color: #000000 !important;
+}
+
+html.light-mode header > div > .flex.gap-12.mt-3 a:hover,
+html.light-mode header > div > .flex.gap-6.mt-3 a:hover {
+    color: #000000 !important;
+}
+
+html.light-mode a[href*="auth=login"],
+html.light-mode a[href*="auth=register"],
+html.light-mode #show-login,
+html.light-mode #show-register {
+    color: #ffffff !important;
+    background-color: #000000 !important;
+}
+
+html.light-mode a[href*="auth=login"]:hover,
+html.light-mode a[href*="auth=register"]:hover,
+html.light-mode #show-login:hover,
+html.light-mode #show-register:hover {
+    color: #ffffff !important;
+    background-color: #1f2937 !important;
+}
+
+html.light-mode header details summary,
+html.light-mode header form[action*="logout"] button {
+    color: #ffffff !important;
+    background-color: #000000 !important;
+}
+
+html.light-mode header details summary:hover,
+html.light-mode header form[action*="logout"] button:hover {
+    color: #ffffff !important;
+    background-color: #1f2937 !important;
+}
+
+header details > div {
+    background-color: #1f2937 !important;
+    border-color: #374151 !important;
+}
+
+header details > div a {
+    color: #ffffff !important;
+}
+
+header details > div a:hover {
+    background-color: #2563eb !important;
+    color: #ffffff !important;
+}
+
+html.light-mode header details > div {
+    background-color: #1f2937 !important;
+    border-color: #374151 !important;
+}
+
+html.light-mode header details > div a {
+    color: #ffffff !important;
+}
+
 
